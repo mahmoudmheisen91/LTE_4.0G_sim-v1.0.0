@@ -1,7 +1,7 @@
 /*
  * LTE_err.h
  *
- *  Created on: Mar 7, 2015
+ *  Created on: Jan 7, 2015
  *      Author: redapple
  */
 #ifndef LTE_ERR_H_
