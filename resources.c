@@ -1,7 +1,7 @@
 /*
  * resources.c
  *
- *  Created on: Mar 7, 2015
+ *  Created on: Jan 7, 2015
  *      Author: redapple
  */
 
@@ -27,7 +27,7 @@ int init(void) {
 }
 
 // Read .wav file:
-Sound read_sound_file(char* dir) {
+void wav_read(char* dir) {
     SNDFILE *sound_file;
     SF_INFO sound_info;
     int f, sr, c;
@@ -69,3 +69,34 @@ Sound read_sound_file(char* dir) {
 	return (Sound) SUCCESS;
 }
 
+// Empty signal handler:
+void catch_signal(int sig) {
+}
+
+// Catch signal CTRL-C:
+void wait_for_ctrl_c(void) {
+    signal(SIGTERM, catch_signal);
+    signal(SIGINT, catch_signal);
+    pause();
+}
+
+void plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char *title) {
+
+    // init plot:
+    gnuplot_ctrl *handler;
+    handler = gnuplot_init();
+
+    // Style and Labels:
+    gnuplot_setstyle(handler, style) ;
+    gnuplot_set_xlabel(handler, xlabel) ;
+    gnuplot_set_ylabel(handler, ylabel) ;
+
+    // Plot:
+    gnuplot_plot_x(handler, x, length, title);
+
+    // wait for CTRL-c is typed:
+    wait_for_ctrl_c();
+
+    // Close plot to remove tmp files:
+    gnuplot_close(handler);
+}

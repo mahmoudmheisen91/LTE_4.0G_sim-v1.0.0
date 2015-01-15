@@ -1,7 +1,7 @@
 /*
  * phy_layer.h
  *
- *  Created on: Mar 7, 2015
+ *  Created on: Jan 7, 2015
  *      Author: redapple
  */
 #ifndef PHY_LAYER_H_
@@ -12,7 +12,6 @@
 	#define FALSE 		0
 
 	// type definition:
-	typedef int bool;
 
 	// Functions Prototypes:
 
