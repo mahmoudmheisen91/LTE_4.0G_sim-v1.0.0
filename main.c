@@ -16,8 +16,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sndfile.h>
+#include <signal.h>
 #include <time.h>
 #include "LTE_err.h"
+#include "gnuplot_i.h"
 #include "resources.h"
 #include "phy_layer.h"
 

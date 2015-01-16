@@ -19,7 +19,10 @@
     #include <stdlib.h>
     #include <unistd.h>
     #include <string.h>
+    #include <sndfile.h>
+    #include <signal.h>
     #include <time.h>
+    #include "gnuplot_i.h"
     #include "LTE_err.h"
 
 	// Define Constants::
@@ -34,6 +37,8 @@
     void catch_signal(int sig);
     void wait_for_ctrl_c(void);
     int plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char *title);
+    double max(double  *data, int length);
+    double min(double  *data, int length);
 
 
 #endif /* RESOURCES_H_ */

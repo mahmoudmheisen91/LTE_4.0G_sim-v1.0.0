@@ -60,3 +60,23 @@ int plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char 
 
     return SUCCESS;
 }
+
+double max(double  *data, int length) {
+    int i;
+    double result = -999999.99;
+    for(i = 0; i < length; i++) {
+        if(data[i] > result)
+            result = data[i];
+    }
+    return result;
+}
+
+double min(double  *data, int length) {
+    int i;
+    double result = 999999.99;
+    for(i = 0; i < length; i++) {
+        if(data[i] < result)
+            result = data[i];
+    }
+    return result;
+}
