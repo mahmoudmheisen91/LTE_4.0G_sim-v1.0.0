@@ -39,6 +39,8 @@
     int plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char *title);
     double max(double  *data, int length);
     double min(double  *data, int length);
+    double mean(double *data, int length);
+    double var(double *data, int length);
 
 
 #endif /* RESOURCES_H_ */

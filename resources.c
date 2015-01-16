@@ -61,7 +61,7 @@ int plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char 
     return SUCCESS;
 }
 
-double max(double  *data, int length) {
+double max(double *data, int length) {
     int i;
     double result = -999999.99;
     for(i = 0; i < length; i++) {
@@ -71,7 +71,7 @@ double max(double  *data, int length) {
     return result;
 }
 
-double min(double  *data, int length) {
+double min(double *data, int length) {
     int i;
     double result = 999999.99;
     for(i = 0; i < length; i++) {
@@ -80,3 +80,24 @@ double min(double  *data, int length) {
     }
     return result;
 }
+
+double mean(double *data, int length) {
+    int i;
+    double result = 0.0;
+    for(i = 0; i < length; i++)
+        result += data[i];
+
+    return result / length;
+}
+
+double var(double *data, int length) {
+    int i;
+    double result = 0;
+    double data_mean = mean(data, length);
+
+    for(i = 0; i < length; i++)
+        result += pow((data[i] - data_mean), 2);
+
+    return result / (length - 1);
+}
+

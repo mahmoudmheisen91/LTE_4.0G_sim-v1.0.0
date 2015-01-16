@@ -10,8 +10,10 @@ void wait_for_ctrl_c(void);
 void plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char *title);
 double lte_adc(double *data, int length, int nbits,double *quantized_data,
                double *encoded_data, double *error_signal);
-double max(double  *data, int length);
-double min(double  *data, int length);
+double max(double *data, int length);
+double min(double *data, int length);
+double mean(double *data, int length);
+double var(double *data, int length);
 
 void main(void) {
 
@@ -26,7 +28,8 @@ void main(void) {
     int length = sf_read_double(sf1, data, info.frames);
     sf_close(sf1);
 
-    printf("%.4f\n", min(data, length));
+    double data2[10] = {0,1,2,3,4,5,6,7,8,9};
+    printf("%.4f\n", var(data2, 10));
 
     //plot_x(data, length, "lines", "Time", "Amplitute", "Test Signal");
     //plot_x(data, length, "lines", "Time", "Amplitute", "Test Signal");
@@ -92,17 +95,19 @@ double lte_adc(double *data, int length, int nbits, double *quantized_data,
     }
 
     // Error:
-    error_signal     = data_quantized - data ;
-    %% SNR_dB:
-    var_data  = var(data);
-    var_error = var(error_signal);
-    SNR       = (var_data / var_error) ^ 2;
-    SNR_dB    = 10*log10(SNR);
+    int k;
+    for (k = 0; k < length; k++)
+        error_signal[k] = quantized_data[k] - data[k];
+
+    //var_data  = var(data);
+    //var_error = var(error_signal);
+    //SNR       = (var_data / var_error) ^ 2;
+    //SNR_dB    = 10*log10(SNR);
 
     return 0.0;
 }
 
-double max(double  *data, int length) {
+double max(double *data, int length) {
     int i;
     double result = -999999.99;
     for(i = 0; i < length; i++) {
@@ -112,7 +117,7 @@ double max(double  *data, int length) {
     return result;
 }
 
-double min(double  *data, int length) {
+double min(double *data, int length) {
     int i;
     double result = 999999.99;
     for(i = 0; i < length; i++) {
@@ -122,10 +127,22 @@ double min(double  *data, int length) {
     return result;
 }
 
-/*
-function [data_quantized,encoded_data,SNR_dB,Nlevels,error_signal] = LTE_ADC(data,Nbits)
+double mean(double *data, int length) {
+    int i;
+    double result = 0.0;
+    for(i = 0; i < length; i++)
+        result += data[i];
 
+    return result / length;
+}
 
+double var(double *data, int length) {
+    int i;
+    double result = 0;
+    double data_mean = mean(data, length);
 
+    for(i = 0; i < length; i++)
+        result += pow((data[i] - data_mean), 2);
 
-*/
+    return result / (length - 1);
+}
