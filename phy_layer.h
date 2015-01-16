@@ -19,6 +19,9 @@
     #include <stdlib.h>
     #include <unistd.h>
     #include <string.h>
+    #include <sndfile.h>
+    #include <signal.h>
+    #include <math.h>
     #include <time.h>
     #include "LTE_err.h"
     #include "resources.h"
@@ -30,5 +33,7 @@
 	// type definition:
 
 	// Functions Prototypes:
+    double lte_adc(double *data, int length, int nbits,double quantized_data[length],
+                   int encoded_data[length], double error_signal[length]);
 
 #endif /* PHY_LAYER_H_ */

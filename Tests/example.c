@@ -8,8 +8,8 @@
 void catch_signal(int sig);
 void wait_for_ctrl_c(void);
 void plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char *title);
-double lte_adc(double *data, int length, int nbits,double *quantized_data,
-               double *encoded_data, double *error_signal);
+double lte_adc(double *data, int length, int nbits,double quantized_data[length],
+               int encoded_data[length], double error_signal[length]);
 double max(double *data, int length);
 double min(double *data, int length);
 double mean(double *data, int length);
@@ -32,11 +32,19 @@ void main(void) {
     printf("%.4f\n", var(data2, 10));
 
     //plot_x(data, length, "lines", "Time", "Amplitute", "Test Signal");
-    //plot_x(data, length, "lines", "Time", "Amplitute", "Test Signal");
+
+    double quantized_data[length];
+    int encoded_data[length];
+    double error_signal[length];
+    double snr_db = lte_adc(data, length, 2, quantized_data, encoded_data, error_signal);
+
+    printf("%.4f\n", snr_db);
+
+    plot_x(quantized_data, length, "lines", "Time", "Amplitute", "Test Signal");
 
     // open new sound file and write to it:
     sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);
-    sf_write_double(sf2, data, length) ;
+    sf_write_double(sf2, quantized_data, length) ;
     sf_close(sf2);
 }
 
@@ -72,22 +80,25 @@ void plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char
     gnuplot_close(handler);
 }
 
-double lte_adc(double *data, int length, int nbits, double *quantized_data,
-               double *encoded_data, double *error_signal) {
+double lte_adc(double *data, int length, int nbits, double quantized_data[length],
+               int encoded_data[length], double error_signal[length]) {
 
     // Parameters:
     double data_max = max(data, length);
     double data_min = min(data, length);
-    int nlevels = 2 ^ nbits;
+    int nlevels = pow(2, nbits);
     double delta = (data_max - data_min) / (nlevels - 1);
 
     // Function:
-    int i, j;
+    long i;
+    int j;
     for(i = 0; i < length; i++) {
-        for(j = 0; j < nlevels; j++) {
+        for(j = 1; j <= nlevels; j++) {
             if ((data[i] > data_min + delta * (j-1)) && (data[i] < data_min + delta * j)) {
-                if ((data_min + delta * (j-1)) > data_max)
+                if ((data_min + delta * (j-1)) > data_max) {
                     break;
+                }
+
                 quantized_data[i] =  data_min + delta * (j-1);
                 encoded_data[i] = j;
             }
@@ -99,12 +110,12 @@ double lte_adc(double *data, int length, int nbits, double *quantized_data,
     for (k = 0; k < length; k++)
         error_signal[k] = quantized_data[k] - data[k];
 
-    //var_data  = var(data);
-    //var_error = var(error_signal);
-    //SNR       = (var_data / var_error) ^ 2;
-    //SNR_dB    = 10*log10(SNR);
+    double data_var  = var(data, length);
+    double error_var = var(error_signal, length);
+    double SNR       = pow((data_var / error_var), 2);
+    double SNR_dB    = 10 * log(SNR);
 
-    return 0.0;
+    return SNR_dB;
 }
 
 double max(double *data, int length) {

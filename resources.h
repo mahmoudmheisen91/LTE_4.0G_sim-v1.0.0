@@ -21,6 +21,7 @@
     #include <string.h>
     #include <sndfile.h>
     #include <signal.h>
+    #include <math.h>
     #include <time.h>
     #include "gnuplot_i.h"
     #include "LTE_err.h"
