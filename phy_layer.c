@@ -1,18 +1,17 @@
-/*
- * phy_layer.c
- *
- *  Created on: Jan 7, 2015
- *      Author: redapple
- */
+/*-------------------------------------------------------------------------*/
+/**
+  @file     phy_layer.c
+  @author   Mahmoud Mheisen
+  @date     Jan 2015
+  @version  $Revision: 1.0 $
+  @brief    Physical layer block diagrams
+
+  LTE Simulator Project: Undergraduate project for simulation the physical
+  layer of fourth generation wirless communication standerd (LTE).
+*/
+/*--------------------------------------------------------------------------*/
 
 // Including Libraries:
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <time.h>
-#include "LTE_err.h"
-#include "resources.h"
 #include "phy_layer.h"
 
 /*

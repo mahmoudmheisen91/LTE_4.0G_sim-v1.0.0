@@ -1,11 +1,26 @@
-/*
- * resources.h
- *
- *  Created on: Jan 7, 2015
- *      Author: redapple
- */
+/*-------------------------------------------------------------------------*/
+/**
+  @file     resources.h
+  @author   Mahmoud Mheisen
+  @date     Jan 2015
+  @version  $Revision: 1.0 $
+  @brief    Resource file for LTE simulator
+
+  LTE Simulator Project: Undergraduate project for simulation the physical
+  layer of fourth generation wirless communication standerd (LTE).
+*/
+/*--------------------------------------------------------------------------*/
+
 #ifndef RESOURCES_H_
 #define RESOURCES_H_
+
+    // Including Libraries:
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <unistd.h>
+    #include <string.h>
+    #include <time.h>
+    #include "LTE_err.h"
 
 	// Define Constants::
 	#define TRUE 		1
@@ -16,10 +31,9 @@
 
 	// Functions Prototypes:
 	int init(void);
-	Sound read_sound_file(char* dir);
     void catch_signal(int sig);
     void wait_for_ctrl_c(void);
-    void plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char *title);
+    int plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char *title);
 
 
 #endif /* RESOURCES_H_ */

@@ -1,9 +1,16 @@
-/*
- * LTE_err.h
- *
- *  Created on: Jan 7, 2015
- *      Author: redapple
- */
+/*-------------------------------------------------------------------------*/
+/**
+  @file     LTE_err.h
+  @author   Mahmoud Mheisen
+  @date     Jan 2015
+  @version  $Revision: 1.0 $
+  @brief    LTE error handling
+
+  LTE Simulator Project: Undergraduate project for simulation the physical
+  layer of fourth generation wirless communication standerd (LTE).
+*/
+/*--------------------------------------------------------------------------*/
+
 #ifndef LTE_ERR_H_
 #define LTE_ERR_H_
 

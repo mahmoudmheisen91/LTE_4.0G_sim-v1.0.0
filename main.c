@@ -1,10 +1,17 @@
-/*
- * main.c
- *
- *  Created on: Jan 7, 2015
- *      Author: redapple
- */
+/*-------------------------------------------------------------------------*/
+/**
+  @file     main.c
+  @author   Mahmoud Mheisen
+  @date     Jan 2015
+  @version  $Revision: 1.0 $
+  @brief    main file
 
+  LTE Simulator Project: Undergraduate project for simulation the physical
+  layer of fourth generation wirless communication standerd (LTE).
+*/
+/*--------------------------------------------------------------------------*/
+
+// Including Libraries:
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,6 +23,7 @@
 
 void main(void) {
 
+    // Software init:
     init();
 
     // Decleration:
@@ -27,10 +35,18 @@ void main(void) {
     sf1 = sf_open("test_signal.wav", SFM_READ, &info);
     double data[info.frames];
     int length = sf_read_double(sf1, data, info.frames);
+    int Fs = info.samplerate;
     sf_close(sf1);
 
+    // print info to screen:
+    printf("---------------------------------\n");
+    printf("Length = %d sample\n", length );
+    printf("Fs     = %d KHz   \n", Fs/1000 );
+    printf("---------------------------------\n");
+    wait_for_ctrl_c();
+
     // plot original signal:
-    plot_x(data, length, "lines", "Time", "Amplitute", "Test Signal");
+    plot_x(data, length, "lines", "Sample", "Amplitude", "Audio Signal");
 
     // open new sound file and write to it:
     sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);
