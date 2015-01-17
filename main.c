@@ -26,6 +26,10 @@
 
 void main(void) {
 
+    // TODO:
+    // S2P
+    // P2S
+
     // Software init:
     init();
 
@@ -34,7 +38,13 @@ void main(void) {
     SF_INFO info;
     info.format = 0;
 
+    // TODO: image
+    // TODO: imshow
+    printf("Enter 1 for image and 2 for voice.\n");
+
     // open sound file and read it:
+    // TODO: know number of bits
+    // TODO: sound matlab
     sf1 = sf_open("test_signal.wav", SFM_READ, &info);
     double data[info.frames];
     int length = sf_read_double(sf1, data, info.frames);
@@ -48,12 +58,34 @@ void main(void) {
     printf("---------------------------------\n");
     wait_for_ctrl_c();
 
+    // TODO: plot xy
     // plot original signal:
     plot_x(data, length, "lines", "Sample", "Amplitude", "Audio Signal");
 
+    // ADC using 4 bits:
+    double quantized_data[length];
+    int encoded_data[length];
+    double error_signal[length];
+    int nbits = 4; // TODO as user/command input
+    double snr_db = lte_adc(data, length, nbits, quantized_data, encoded_data, error_signal);
+
+    // print info to screen:
+    printf("---------------------------------\n");
+    printf('nlevels = %d level \n', pow(2, nbits));
+    printf("SNR_dB  = %.4f dB   \n", snr_db);
+    printf("---------------------------------\n");
+    wait_for_ctrl_c();
+
+    // plot quantized signal:
+    plot_x(quantized_data, length, "lines", "Time", "Amplitute", "Quantized Signal");
+
+    // plot error signal:
+    // TODO: FFT plot:
+    plot_x(error_signal, length, "lines", "Time", "Amplitute", "Error Signal");
+
     // open new sound file and write to it:
     sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);
-    sf_write_double(sf2, data, length) ;
+    sf_write_double(sf2, quantized_data, length) ;
     sf_close(sf2);
 
 

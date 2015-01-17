@@ -52,92 +52,23 @@ double lte_adc(double *data, int length, int nbits, double quantized_data[length
     return SNR_dB;
 }
 
+void poly_interlever(double *data, int length, int f1, int f2, double poly_data[length]) {
+    int i;
+    for(i = 0; i < length; i++) {
+        //printf("%.4f\n", fmod((f1 * i + f2 * pow(i, 2)), length));
+        poly_data[i] = data[(int) fmod((f1 * i + f2 * pow(i, 2)), length)];
+    }
+}
+
+void poly_deinterlever(double *data, int length, int f1, int f2, double depoly_data[length]) {
+    int i;
+    for(i = 0; i < length; i++) {
+        //printf("%.4f\n", fmod((f1 * i + f2 * pow(i, 2)), length));
+        depoly_data[(int) fmod((f1 * i + f2 * pow(i, 2)), length)] = data[i];
+    }
+}
+
 /*
-
-int read_image(void) {
-	[ data , Fs , nbits ] = wavread('testSignal') ;
-	    grid on
-	    hold on
-	    xlabel('Sample');
-	    ylabel('Amplitude')
-	    title( ' Audio Signal ' )
-	    plot( data )
-	    %sound( data , Fs )
-	    hold off
-}
-
-int analog_to_digital(void) {
-	%% 3)- Analog to Digital Convertor:
-
-	fprintf('---------------------------------\n');
-	nbits = input('Enter the number of bits , n = ') ;
-	fprintf('---------------------------------\n');
-
-	[dataQuantized,encodedData,SNRdB,Nlevels,errorSignal] = LTE_ADC( data , nbits ) ;
-
-	encodedData2 = de2bi(encodedData , 8 , 'left-msb' ) ;
-	[encodedData,r,c]  = P2S(encodedData2') ;
-
-
-	fprintf('-------------------  \n');
-	fprintf('Nlevels = %d level \n', Nlevels );
-	fprintf('SNR     = %2.2f dB \n', SNRdB );
-	fprintf('-------------------  \n');
-}
-
-void plot(void) {
-	pause
-
-	f2 = figure('position',[150 115 1100 500]) ;
-
-	subplot(211)
-	grid on
-	plot(data,'b')
-	title('Original speech data')
-	subplot(212)
-	plot(dataQuantized,'k')
-	msg=sprintf('Quantized speech with %d bits per sample', nbits);
-	title(msg)
-
-	print( f2 , '-dbmp', '-noui', 'C:\Users\win7\Desktop\Results\OriginalVsQuantized' );
-	%sound(dataQuantized,Fs);
-
-	pause
-	close all
-
-	f3 = figure('position',[150 115 1100 500]) ;
-
-	plot(errorSignal,'r')
-	title('Quantization Error')
-	print( f3 , '-dbmp', '-noui', 'C:\Users\win7\Desktop\Results\QuantizationError' );
-
-	pause
-	close all
-
-	% PLotting FFT of quantize test signal and original one
-	domega = 2*pi/Fs ;
-	omega  = 0 : domega : 2*pi - domega ;
-	fftd   = abs(fftshift((fft( data , Fs )))) ;
-	fftdq  = abs(fftshift((fft(dataQuantized,Fs))));
-
-	f4 = figure('position',[150 115 1100 500]) ;
-
-	subplot(211)
-	plot(fftd,'m')
-	title('Magnitude of FFT of original utterance');
-	xlabel('omega (radians/s)');
-
-	subplot(212)
-	plot(fftdq,'k')
-	title('Magnitude of FFT of quantized waveform');
-	xlabel('omega (radians/s)');
-
-	print( f4 , '-dbmp', '-noui', 'C:\Users\win7\Desktop\Results\FFT' );
-
-	pause
-	close all
-
-}
 
 void compression(void) {
 	%% 4)- Compression :
@@ -168,28 +99,6 @@ void security(void) {
 	fprintf('Nbits after  Encryption = %d bit \n', length(enycrptedData));
 	fprintf('MAC = %s \n', MAC );
 	fprintf('------------------------------------  \n');
-
-	pause
-}
-
-void turbo_coding(void) {
-	%% 6)- Turbo Coding :
-
-	imshow('turbo.jpg')
-	pause
-	close all
-
-	gf   = [ 1 1 0 1 ] ;
-	gr   = [ 1 0 1 1 ] ;
-	a    = 7           ;
-	type1 = 'poly'     ;
-
-	turboData = LTE_TURBO( encodedData , gf , gr , type1 , a  ) ;
-
-	fprintf('-----------------------------------  \n');
-	fprintf('Nbits before Encoding = %d  bit \n', length(enycrptedData));
-	fprintf('Nbits after  Encoding = %d bit \n', length(turboData));
-	fprintf('-----------------------------------  \n');
 
 	pause
 }
