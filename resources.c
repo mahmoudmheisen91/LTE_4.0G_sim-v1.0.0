@@ -101,3 +101,10 @@ double var(double *data, int length) {
     return result / (length - 1);
 }
 
+int nbits_number(int num) {
+    int nbits = 1;
+
+    nbits = log10(num+1)/log10(2) + 1;
+
+    return nbits;
+}

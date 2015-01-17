@@ -83,6 +83,17 @@ void main(void) {
     // TODO: FFT plot:
     plot_x(error_signal, length, "lines", "Time", "Amplitute", "Error Signal");
 
+    // TODO:
+    /*
+    turboData = LTE_TURBO( encodedData , gf , gr , type1 , a  ) ;
+
+    fprintf('-----------------------------------  \n');
+    fprintf('Nbits before Encoding = %d  bit \n', length(enycrptedData));
+    fprintf('Nbits after  Encoding = %d bit \n', length(turboData));
+    fprintf('-----------------------------------  \n');
+
+    */
+
     // open new sound file and write to it:
     sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);
     sf_write_double(sf2, quantized_data, length) ;

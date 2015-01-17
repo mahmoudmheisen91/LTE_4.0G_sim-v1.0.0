@@ -16,6 +16,9 @@ double mean(double *data, int length);
 double var(double *data, int length);
 void poly_interlever(double *data, int length, int f1, int f2, double poly_data[length]);
 void poly_deinterlever(double *data, int length, int f1, int f2, double depoly_data[length]);
+int nbits_number(int num);
+void lte_turbo_coding(int *data, int length, int gf, int gr,
+                      int f1, int f2, int turbo_data[length]);
 
 void main(void) {
 
@@ -41,6 +44,8 @@ void main(void) {
     poly_deinterlever(test1, 10, 9, 0, test2);
     printf("%.4f\n", var(test2, 10));
 
+    printf("bits %d\n", nbits_number(2));
+
     int i;
     for(i = 0; i < 10; i++) {
         //printf("%.4f\n", test2[i]);
@@ -56,6 +61,13 @@ void main(void) {
     //printf("%.4f\n", snr_db);
 
     //plot_x(quantized_data, length, "lines", "Time", "Amplitute", "Test Signal");
+
+    int gf   = 0b1101;
+    int gr   = 0b1011;
+    int f1   = 9;
+    int f2   = 0;
+    double turboData[length];
+    LTE_TURBO( encodedData , gf , gr , type1 , a  ) ;
 
     // open new sound file and write to it:
     sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);
@@ -128,7 +140,7 @@ double lte_adc(double *data, int length, int nbits, double quantized_data[length
     double data_var  = var(data, length);
     double error_var = var(error_signal, length);
     double SNR       = pow((data_var / error_var), 2);
-    double SNR_dB    = 10 * log(SNR);
+    double SNR_dB    = 10 * log10(SNR);
 
     return SNR_dB;
 }
@@ -173,24 +185,16 @@ double var(double *data, int length) {
     return result / (length - 1);
 }
 
-void lte_turbo_coding(int *data, int length, int gf, int gr, int f1, int f2) {
+void lte_turbo_coding(int *data, int length, int gf, int gr,
+                      int f1, int f2, int turbo_data[length]) {
     // 6)- Turbo Coding :
+    int L = nbits_number(gr);
 
-    /*
-    gf   = [ 1 1 0 1 ] ;
-    gr   = [ 1 0 1 1 ] ;
-    a    = 7           ;
-    type1 = 'poly'     ;
+    // Encoding:
+    double Sbitint[length];
+    poly_interlever(data, length, f1, f2, Sbitint);
 
-    turboData = LTE_TURBO( encodedData , gf , gr , type1 , a  ) ;
 
-    fprintf('-----------------------------------  \n');
-    fprintf('Nbits before Encoding = %d  bit \n', length(enycrptedData));
-    fprintf('Nbits after  Encoding = %d bit \n', length(turboData));
-    fprintf('-----------------------------------  \n');
-
-    pause
-    */
 }
 
 void poly_interlever(double *data, int length, int f1, int f2, double poly_data[length]) {
@@ -212,23 +216,15 @@ void poly_deinterlever(double *data, int length, int f1, int f2, double depoly_d
 int nbits_number(int num) {
     int nbits = 1;
 
+    nbits = log10(num+1)/log10(2) + 1;
+
     return nbits;
 }
 
 /*
 function output = LTE_TURBO( input , gf , gr , type , a  )
 
-N   = length( input )  ;
-L   = length( gr ) - 1 ;
 
-switch type
-    case 'uncoded'
-        output  = input ;
-        return
-end
-
-% Encoding :
-Sbitint               = PolyInterleaver( input , a ) ;
 
 [ Sbit , Pbit ]       = Conv( input , gf , gr , L , N )  ;
 [ Sbitint , Pbitint ] = Conv( Sbitint , gf , gr , L , N) ;
@@ -265,11 +261,5 @@ for i  = 1 : counter
     end
     Pbit( i ) = mod( Pbit( i ) , 2 ) ;
 end
-
-function xint = PolyInterleaver( x , a)
-
-L = length ( x ) ;
-i = 0 : L - 1 ;
-xint( i + 1 ) = x( mod( a * i , L ) + 1 ) ;
 
 */

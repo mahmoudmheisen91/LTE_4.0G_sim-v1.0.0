@@ -10,6 +10,8 @@
   layer of fourth generation wirless communication standerd (LTE).
 */
 /*--------------------------------------------------------------------------*/
+// TODO:
+// interleaver and deinterleaver functions modifictions
 
 #ifndef PHY_LAYER_H_
 #define PHY_LAYER_H_
