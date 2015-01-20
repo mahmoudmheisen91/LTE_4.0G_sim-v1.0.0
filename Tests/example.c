@@ -19,6 +19,8 @@ void poly_deinterlever(int *data, int length, int f1, int f2, int depoly_data[le
 int nbits_number(int num);
 void lte_turbo_coding(int *data, int length, int gf, int gr,
                       int f1, int f2, int turbo_data[length]);
+void lte_turbo_decoder(int *data, int length, int gf, int gr,
+                      int f1, int f2, int decoded_data[length]);
 
 void main(void) {
 
@@ -68,6 +70,9 @@ void main(void) {
     int f2   = 0;
     int turbo_data[2 * length];
     lte_turbo_coding(encoded_data, length, gf, gr, f1, f2, turbo_data);
+
+    int decoded_data[length];
+    lte_turbo_decoder(encoded_data, length, gf, gr, f1, f2, decoded_data);
 
     // open new sound file and write to it:
     sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);
@@ -196,11 +201,26 @@ void lte_turbo_coding(int *data, int length, int gf, int gr,
 
     int i;
     for(i = 0; i < 2 * length; i++) {
-        if (i % 2 == 0)
+        if ((int) fmod(i, 2) == 0)
             turbo_data[i] = data[i/2];
         else
             turbo_data[i] = poly_data[i/2];
     }
+}
+
+void lte_turbo_decoder(int *data, int length, int gf, int gr,
+                      int f1, int f2, int decoded_data[length]) {
+
+    // Decoding:
+    int depoly_data[length];
+
+    int i, j;
+    for(i = 0; i < 2 * length; i++) {
+        if (i % 2 != 0)
+            depoly_data[j++] = data[i];
+    }
+
+    poly_deinterlever(depoly_data, length, f1, f2, decoded_data);
 }
 
 void poly_interlever(int *data, int length, int f1, int f2, int poly_data[length]) {
