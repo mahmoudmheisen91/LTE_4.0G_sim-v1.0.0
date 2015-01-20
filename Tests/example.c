@@ -17,7 +17,7 @@ double var(double *data, int length);
 void poly_interlever(int *data, int length, int f1, int f2, int poly_data[length]);
 void poly_deinterlever(int *data, int length, int f1, int f2, int depoly_data[length]);
 int nbits_number(int num);
-void lte_turbo_coding(int *data, int length, int gf, int gr,
+void lte_turbo_encoder(int *data, int length, int gf, int gr,
                       int f1, int f2, int turbo_data[length]);
 void lte_turbo_decoder(int *data, int length, int gf, int gr,
                       int f1, int f2, int decoded_data[length]);
@@ -190,7 +190,7 @@ double var(double *data, int length) {
     return result / (length - 1);
 }
 
-void lte_turbo_coding(int *data, int length, int gf, int gr,
+void lte_turbo_encoder(int *data, int length, int gf, int gr,
                       int f1, int f2, int turbo_data[2 * length]) {
     // 6)- Turbo Coding :
     int L = nbits_number(gr);

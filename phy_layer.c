@@ -68,6 +68,24 @@ void poly_deinterlever(int *data, int length, int f1, int f2, int depoly_data[le
     }
 }
 
+void lte_turbo_encoder(int *data, int length, int gf, int gr,
+                      int f1, int f2, int turbo_data[2 * length]) {
+    // 6)- Turbo Coding :
+    int L = nbits_number(gr);
+
+    // Encoding:
+    int poly_data[length];
+    poly_interlever(data, length, f1, f2, poly_data);
+
+    int i;
+    for(i = 0; i < 2 * length; i++) {
+        if ((int) fmod(i, 2) == 0)
+            turbo_data[i] = data[i/2];
+        else
+            turbo_data[i] = poly_data[i/2];
+    }
+}
+
 /*
 
 void compression(void) {

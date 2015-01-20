@@ -87,14 +87,19 @@ void main(void) {
 
     // TODO:
     /*
-    turboData = LTE_TURBO( encodedData , gf , gr , type1 , a  ) ;
-
     fprintf('-----------------------------------  \n');
     fprintf('Nbits before Encoding = %d  bit \n', length(enycrptedData));
     fprintf('Nbits after  Encoding = %d bit \n', length(turboData));
     fprintf('-----------------------------------  \n');
-
     */
+
+    // Encoding:
+    int gf   = 0b1101;
+    int gr   = 0b1011;
+    int f1   = 9;
+    int f2   = 0;
+    int turbo_data[2 * length];
+    lte_turbo_coding(encoded_data, length, gf, gr, f1, f2, turbo_data);
 
     // open new sound file and write to it:
     sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);
