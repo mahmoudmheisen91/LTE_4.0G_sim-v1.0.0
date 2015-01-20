@@ -101,6 +101,10 @@ void main(void) {
     int turbo_data[2 * length];
     lte_turbo_coding(encoded_data, length, gf, gr, f1, f2, turbo_data);
 
+    // Decoding:
+    int decoded_data[length];
+    lte_turbo_decoder(encoded_data, length, gf, gr, f1, f2, decoded_data);
+
     // open new sound file and write to it:
     sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);
     sf_write_double(sf2, quantized_data, length) ;

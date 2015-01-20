@@ -41,5 +41,7 @@
     void poly_deinterlever(int *data, int length, int f1, int f2, int depoly_data[]);
     void lte_turbo_encoder(int *data, int length, int gf, int gr,
                           int f1, int f2, int turbo_data[length]);
+    void lte_turbo_decoder(int *data, int length, int gf, int gr,
+                          int f1, int f2, int decoded_data[length]);
 
 #endif /* PHY_LAYER_H_ */
