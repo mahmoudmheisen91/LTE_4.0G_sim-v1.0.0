@@ -14,8 +14,8 @@ double max(double *data, int length);
 double min(double *data, int length);
 double mean(double *data, int length);
 double var(double *data, int length);
-void poly_interlever(double *data, int length, int f1, int f2, double poly_data[length]);
-void poly_deinterlever(double *data, int length, int f1, int f2, double depoly_data[length]);
+void poly_interlever(int *data, int length, int f1, int f2, int poly_data[length]);
+void poly_deinterlever(int *data, int length, int f1, int f2, int depoly_data[length]);
 int nbits_number(int num);
 void lte_turbo_coding(int *data, int length, int gf, int gr,
                       int f1, int f2, int turbo_data[length]);
@@ -33,18 +33,18 @@ void main(void) {
     int length = sf_read_double(sf1, data, info.frames);
     sf_close(sf1);
 
-    double data2[10] = {0,1,2,3,4,5,6,7,8,9};
-    printf("%.4f\n", var(data2, 10));
+    //double data2[10] = {0,1,2,3,4,5,6,7,8,9};
+    //printf("%.4f\n", var(data2, 10));
 
-    double test1[10];
-    poly_interlever(data2, 10, 9, 0, test1);
-    printf("%.4f\n", var(test1, 10));
+    //double test1[10];
+    //poly_interlever(data2, 10, 9, 0, test1);
+    //printf("%.4f\n", var(test1, 10));
 
-    double test2[10];
-    poly_deinterlever(test1, 10, 9, 0, test2);
-    printf("%.4f\n", var(test2, 10));
+    //double test2[10];
+    //poly_deinterlever(test1, 10, 9, 0, test2);
+    //printf("%.4f\n", var(test2, 10));
 
-    printf("bits %d\n", nbits_number(2));
+    //printf("bits %d\n", nbits_number(2));
 
     int i;
     for(i = 0; i < 10; i++) {
@@ -66,8 +66,8 @@ void main(void) {
     int gr   = 0b1011;
     int f1   = 9;
     int f2   = 0;
-    double turboData[length];
-    LTE_TURBO( encodedData , gf , gr , type1 , a  ) ;
+    int turbo_data[2 * length];
+    lte_turbo_coding(encoded_data, length, gf, gr, f1, f2, turbo_data);
 
     // open new sound file and write to it:
     sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);
@@ -186,18 +186,24 @@ double var(double *data, int length) {
 }
 
 void lte_turbo_coding(int *data, int length, int gf, int gr,
-                      int f1, int f2, int turbo_data[length]) {
+                      int f1, int f2, int turbo_data[2 * length]) {
     // 6)- Turbo Coding :
     int L = nbits_number(gr);
 
     // Encoding:
-    double Sbitint[length];
-    poly_interlever(data, length, f1, f2, Sbitint);
+    int poly_data[length];
+    poly_interlever(data, length, f1, f2, poly_data);
 
-
+    int i;
+    for(i = 0; i < 2 * length; i++) {
+        if (i % 2 == 0)
+            turbo_data[i] = data[i/2];
+        else
+            turbo_data[i] = poly_data[i/2];
+    }
 }
 
-void poly_interlever(double *data, int length, int f1, int f2, double poly_data[length]) {
+void poly_interlever(int *data, int length, int f1, int f2, int poly_data[length]) {
     int i;
     for(i = 0; i < length; i++) {
         //printf("%.4f\n", fmod((f1 * i + f2 * pow(i, 2)), length));
@@ -205,7 +211,7 @@ void poly_interlever(double *data, int length, int f1, int f2, double poly_data[
     }
 }
 
-void poly_deinterlever(double *data, int length, int f1, int f2, double depoly_data[length]) {
+void poly_deinterlever(int *data, int length, int f1, int f2, int depoly_data[length]) {
     int i;
     for(i = 0; i < length; i++) {
         //printf("%.4f\n", fmod((f1 * i + f2 * pow(i, 2)), length));
@@ -220,46 +226,3 @@ int nbits_number(int num) {
 
     return nbits;
 }
-
-/*
-function output = LTE_TURBO( input , gf , gr , type , a  )
-
-
-
-[ Sbit , Pbit ]       = Conv( input , gf , gr , L , N )  ;
-[ Sbitint , Pbitint ] = Conv( Sbitint , gf , gr , L , N) ;
-tIndex                = N+1 : N+L                        ;
-
-output = ([ reshape([ Sbit( 1 : N)' ; Pbit( 1 : N)' ; Pbitint( 1 : N )' ] , 1 , [] )' ...
-         ; Sbit( tIndex ) ; Pbit( tIndex ) ; Sbitint( tIndex ) ; Pbitint( tIndex ) ]  )' ;
-
-function [ Sbit , Pbit ] = Conv( input , gf , gr , L , N )
-
-memory  = zeros ( 1, L + 1 ) ;
-counter = N + L  ;
-
-Sbit = [ input' ; zeros( L , 1 ) ] ;
-Pbit = zeros( N+L , 1 ) ;
-
-for i  = 1 : counter
-
-    memory = [ 0  memory( 1 : L ) ] ;  %#ok<*AGROW>
-    Temp = 0 ;
-
-    for j = 2 : L + 1
-        Temp = Temp + gr( j ) * memory( j ) ;
-    end
-
-    Temp = mod( Temp , 2) ;
-    if i > N
-        Sbit( i ) = Temp ;
-    end
-
-    memory( 1 ) = mod( Temp + Sbit( i ) , 2 ) ;
-    for j = 1 : L + 1
-        Pbit( i ) = Pbit( i ) + gf( j ) * memory( j ) ;
-    end
-    Pbit( i ) = mod( Pbit( i ) , 2 ) ;
-end
-
-*/

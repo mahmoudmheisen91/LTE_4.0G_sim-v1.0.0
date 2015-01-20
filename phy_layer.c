@@ -52,7 +52,7 @@ double lte_adc(double *data, int length, int nbits, double quantized_data[length
     return SNR_dB;
 }
 
-void poly_interlever(double *data, int length, int f1, int f2, double poly_data[length]) {
+void poly_interlever(int *data, int length, int f1, int f2, int poly_data[]) {
     int i;
     for(i = 0; i < length; i++) {
         //printf("%.4f\n", fmod((f1 * i + f2 * pow(i, 2)), length));
@@ -60,7 +60,7 @@ void poly_interlever(double *data, int length, int f1, int f2, double poly_data[
     }
 }
 
-void poly_deinterlever(double *data, int length, int f1, int f2, double depoly_data[length]) {
+void poly_deinterlever(int *data, int length, int f1, int f2, int depoly_data[length]) {
     int i;
     for(i = 0; i < length; i++) {
         //printf("%.4f\n", fmod((f1 * i + f2 * pow(i, 2)), length));

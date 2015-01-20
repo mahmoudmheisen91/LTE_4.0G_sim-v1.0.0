@@ -37,7 +37,7 @@
 	// Functions Prototypes:
     double lte_adc(double *data, int length, int nbits,double quantized_data[length],
                    int encoded_data[length], double error_signal[length]);
-    void poly_interlever(double *data, int length, int f1, int f2, double poly_data[length]);
-    void poly_deinterlever(double *data, int length, int f1, int f2, double depoly_data[length]);
+    void poly_interlever(int *data, int length, int f1, int f2, int poly_data[length]);
+    void poly_deinterlever(int *data, int length, int f1, int f2, int depoly_data[]);
 
 #endif /* PHY_LAYER_H_ */

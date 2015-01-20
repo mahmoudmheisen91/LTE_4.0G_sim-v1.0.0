@@ -29,6 +29,8 @@ void main(void) {
     // TODO:
     // S2P
     // P2S
+    // encoder
+    // decoder
 
     // Software init:
     init();
