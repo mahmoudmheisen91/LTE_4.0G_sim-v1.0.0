@@ -7,7 +7,7 @@
 
 void catch_signal(int sig);
 void wait_for_ctrl_c(void);
-void plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char *title);
+void plot_y(double *y, int length, char *style, char *xlabel, char *ylabel, char *title);
 void plot_xy(double *x, double *y, int length, char *style, char *xlabel, char *ylabel, char *title);
 double lte_adc(double *data, int length, int nbits,double quantized_data[length],
                int encoded_data[length], double error_signal[length]);
@@ -35,6 +35,7 @@ void main(void) {
     double data[info.frames];
     int length = sf_read_double(sf1, data, info.frames);
     sf_close(sf1);
+    int fs = info.samplerate;
 
     //double data2[10] = {0,1,2,3,4,5,6,7,8,9};
     //printf("%.4f\n", var(data2, 10));
@@ -50,12 +51,14 @@ void main(void) {
     //printf("bits %d\n", nbits_number(2));
 
     int i;
-    for(i = 0; i < 10; i++) {
+    double time[length];
+    for(i = 0; i < length; i++) {
         //printf("%.4f\n", test2[i]);
+        time[i] = i / fs;
     }
 
-    //plot_x(data, length, "lines", "Time", "Amplitute", "Test Signal");
-    plot_xy(data, time, length, "lines", "Time", "Amplitute", "Test Signal");
+    //plot_y(data, length, "lines", "Time", "Amplitute", "Test Signal");
+    plot_xy(time, data, length, "lines", "Time", "Amplitute", "Test Signal");
 
     double quantized_data[length];
     int encoded_data[length];
@@ -64,22 +67,22 @@ void main(void) {
 
     //printf("%.4f\n", snr_db);
 
-    //plot_x(quantized_data, length, "lines", "Time", "Amplitute", "Test Signal");
+    //plot_y(quantized_data, length, "lines", "Time", "Amplitute", "Test Signal");
 
     int gf   = 0b1101;
     int gr   = 0b1011;
     int f1   = 9;
     int f2   = 0;
     int turbo_data[2 * length];
-    lte_turbo_coding(encoded_data, length, gf, gr, f1, f2, turbo_data);
+    lte_turbo_encoder(encoded_data, length, gf, gr, f1, f2, turbo_data);
 
     int decoded_data[length];
-    lte_turbo_decoder(encoded_data, length, gf, gr, f1, f2, decoded_data);
+    //lte_turbo_decoder(encoded_data, length, gf, gr, f1, f2, decoded_data);
 
     // open new sound file and write to it:
-    sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);
-    sf_write_double(sf2, quantized_data, length) ;
-    sf_close(sf2);
+    //sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);
+    //sf_write_double(sf2, quantized_data, length) ;
+    //sf_close(sf2);
 }
 
 // Empty signal handler:
@@ -93,7 +96,7 @@ void wait_for_ctrl_c(void) {
     pause();
 }
 
-void plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char *title) {
+void plot_y(double *y, int length, char *style, char *xlabel, char *ylabel, char *title) {
 
     // init plot:
     gnuplot_ctrl *handler;
@@ -105,7 +108,7 @@ void plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char
     gnuplot_set_ylabel(handler, ylabel) ;
 
     // Plot:
-    gnuplot_plot_x(handler, x, length, title);
+    gnuplot_plot_x(handler, y, length, title);
 
     // wait for CTRL-c is typed:
     wait_for_ctrl_c();
@@ -215,10 +218,12 @@ double var(double *data, int length) {
 void lte_turbo_encoder(int *data, int length, int gf, int gr,
                       int f1, int f2, int turbo_data[2 * length]) {
     // 6)- Turbo Coding :
+
     int L = nbits_number(gr);
 
     // Encoding:
     int poly_data[length];
+
     poly_interlever(data, length, f1, f2, poly_data);
 
     int i;

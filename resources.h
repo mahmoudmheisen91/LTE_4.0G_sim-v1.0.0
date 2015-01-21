@@ -37,7 +37,7 @@
 	int init(void);
     void catch_signal(int sig);
     void wait_for_ctrl_c(void);
-    int plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char *title);
+    int plot_y(double *y, int length, char *style, char *xlabel, char *ylabel, char *title);
     double max(double  *data, int length);
     double min(double  *data, int length);
     double mean(double *data, int length);

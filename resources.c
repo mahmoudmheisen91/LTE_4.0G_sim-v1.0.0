@@ -38,7 +38,7 @@ void wait_for_ctrl_c(void) {
 }
 
 // Plot data:
-int plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char *title) {
+int plot_y(double *y, int length, char *style, char *xlabel, char *ylabel, char *title) {
 
     // init plot:
     gnuplot_ctrl *handler;

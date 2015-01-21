@@ -60,9 +60,17 @@ void main(void) {
     printf("---------------------------------\n");
     wait_for_ctrl_c();
 
-    // TODO: plot xy
     // plot original signal:
-    plot_x(data, length, "lines", "Sample", "Amplitude", "Audio Signal");
+    plot_y(data, length, "lines", "Sample", "Amplitude", "Audio Signal");
+
+    // plot vs orignal time:
+    int i;
+    double time[length];
+    for(i = 0; i < length; i++) {
+        time[i] = i / fs;
+    }
+    plot_xy(time, data, length, "lines", "Time", "Amplitute", "Test Signal");
+
 
     // ADC using 4 bits:
     double quantized_data[length];
