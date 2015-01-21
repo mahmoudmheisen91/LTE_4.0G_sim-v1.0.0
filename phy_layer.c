@@ -74,8 +74,9 @@ void lte_turbo_encoder(int *data, int length, int gf, int gr,
     int L = nbits_number(gr);
 
     // Encoding:
-    int poly_data[length];
-    printf("here??\n");
+    int *poly_data;
+    poly_data = (int*)malloc(sizeof(int) * length);
+
     poly_interlever(data, length, f1, f2, poly_data);
 
     int i;

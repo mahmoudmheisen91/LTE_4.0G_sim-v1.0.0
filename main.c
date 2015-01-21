@@ -31,6 +31,7 @@ void main(void) {
     // P2S
     // encoder
     // decoder
+    // bud database: makefile seperation error: use tap instead of four spaces
 
     // Software init:
     init();
@@ -64,11 +65,11 @@ void main(void) {
     //plot_y(data, length, "lines", "Sample", "Amplitude", "Audio Signal");
 
     // plot vs orignal time:
-    int i;
-    double time[length];
-    for(i = 0; i < length; i++) {
-        time[i] = i / Fs;
-    }
+    //int i;
+    //double time[length];
+    //for(i = 0; i < length; i++) {
+        //time[i] = i / Fs;
+    //}
     //plot_xy(time, data, length, "lines", "Time", "Amplitute", "Test Signal");
 
 
@@ -78,6 +79,9 @@ void main(void) {
     double error_signal[length];
     int nbits = 4; // TODO as user/command input
     double snr_db = lte_adc(data, length, nbits, quantized_data, encoded_data, error_signal);
+
+    //free(error_signal);
+    //free(quantized_data);
 
     // print info to screen:
     printf("---------------------------------\n");
@@ -108,15 +112,15 @@ void main(void) {
     int f2   = 0;
     int turbo_data[2 * length];
     lte_turbo_encoder(encoded_data, length, gf, gr, f1, f2, turbo_data);
-    printf("here??\n");
+    // printf("here??\n");
 
     // Decoding:
     int decoded_data[length];
-    lte_turbo_decoder(encoded_data, length, gf, gr, f1, f2, decoded_data);
+    lte_turbo_decoder(turbo_data, length, gf, gr, f1, f2, decoded_data);
 
     // open new sound file and write to it:
     sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);
-    sf_write_double(sf2, quantized_data, length) ;
+    sf_write_int(sf2, decoded_data, length) ;
     sf_close(sf2);
 
 
