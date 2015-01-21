@@ -8,6 +8,7 @@
 void catch_signal(int sig);
 void wait_for_ctrl_c(void);
 void plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char *title);
+void plot_xy(double *x, double *y, int length, char *style, char *xlabel, char *ylabel, char *title);
 double lte_adc(double *data, int length, int nbits,double quantized_data[length],
                int encoded_data[length], double error_signal[length]);
 double max(double *data, int length);
@@ -54,6 +55,7 @@ void main(void) {
     }
 
     //plot_x(data, length, "lines", "Time", "Amplitute", "Test Signal");
+    plot_xy(data, time, length, "lines", "Time", "Amplitute", "Test Signal");
 
     double quantized_data[length];
     int encoded_data[length];
@@ -104,6 +106,26 @@ void plot_x(double *x, int length, char *style, char *xlabel, char *ylabel, char
 
     // Plot:
     gnuplot_plot_x(handler, x, length, title);
+
+    // wait for CTRL-c is typed:
+    wait_for_ctrl_c();
+
+    // Close plot to remove tmp files:
+    gnuplot_close(handler);
+}
+
+void plot_xy(double *x, double *y, int length, char *style, char *xlabel, char *ylabel, char *title) {
+    // init plot:
+    gnuplot_ctrl *handler;
+    handler = gnuplot_init();
+
+    // Style and Labels:
+    gnuplot_setstyle(handler, style) ;
+    gnuplot_set_xlabel(handler, xlabel) ;
+    gnuplot_set_ylabel(handler, ylabel) ;
+
+    // Plot:
+    gnuplot_plot_xy(handler, x, y, length, title);
 
     // wait for CTRL-c is typed:
     wait_for_ctrl_c();
