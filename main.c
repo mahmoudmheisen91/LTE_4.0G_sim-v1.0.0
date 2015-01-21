@@ -58,18 +58,18 @@ void main(void) {
     printf("Length = %d sample\n", length );
     printf("Fs     = %d KHz   \n", Fs/1000 );
     printf("---------------------------------\n");
-    wait_for_ctrl_c();
+    //wait_for_ctrl_c();
 
     // plot original signal:
-    plot_y(data, length, "lines", "Sample", "Amplitude", "Audio Signal");
+    //plot_y(data, length, "lines", "Sample", "Amplitude", "Audio Signal");
 
     // plot vs orignal time:
     int i;
     double time[length];
     for(i = 0; i < length; i++) {
-        time[i] = i / fs;
+        time[i] = i / Fs;
     }
-    plot_xy(time, data, length, "lines", "Time", "Amplitute", "Test Signal");
+    //plot_xy(time, data, length, "lines", "Time", "Amplitute", "Test Signal");
 
 
     // ADC using 4 bits:
@@ -81,17 +81,17 @@ void main(void) {
 
     // print info to screen:
     printf("---------------------------------\n");
-    printf('nlevels = %d level \n', pow(2, nbits));
+    printf("nlevels = %.1f level \n", pow(2, nbits));
     printf("SNR_dB  = %.4f dB   \n", snr_db);
     printf("---------------------------------\n");
-    wait_for_ctrl_c();
+    //wait_for_ctrl_c();
 
     // plot quantized signal:
-    plot_x(quantized_data, length, "lines", "Time", "Amplitute", "Quantized Signal");
+    //plot_y(quantized_data, length, "lines", "Time", "Amplitute", "Quantized Signal");
 
     // plot error signal:
     // TODO: FFT plot:
-    plot_x(error_signal, length, "lines", "Time", "Amplitute", "Error Signal");
+    //plot_y(error_signal, length, "lines", "Time", "Amplitute", "Error Signal");
 
     // TODO:
     /*
@@ -107,7 +107,8 @@ void main(void) {
     int f1   = 9;
     int f2   = 0;
     int turbo_data[2 * length];
-    lte_turbo_coding(encoded_data, length, gf, gr, f1, f2, turbo_data);
+    lte_turbo_encoder(encoded_data, length, gf, gr, f1, f2, turbo_data);
+    printf("here??\n");
 
     // Decoding:
     int decoded_data[length];
