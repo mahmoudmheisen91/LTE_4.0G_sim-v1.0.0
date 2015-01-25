@@ -125,7 +125,16 @@ void generate_mapping_table(int M, int M1, double *table) {
     }
 }
 
+void lte_modulation(int *data, int length, int M, double *table, double *mapped_symbols) {
+    double k = log10(M) / log10(2);
 
+    /*
+    for i = 1 : k : numberOfBits
+        symbolIndex( (i - 1) / k + 1 ) = bi2de( input( i : i + k - 1 ) ,'left-msb' ) ;
+    end
+    MappedSymbols = MappingTable( symbolIndex + 1 ) ;
+    */
+}
 
 
 
