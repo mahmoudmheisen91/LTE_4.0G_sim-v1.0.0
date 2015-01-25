@@ -114,9 +114,41 @@ void main(void) {
     lte_turbo_encoder(encoded_data, length, gf, gr, f1, f2, turbo_data);
     // printf("here??\n");
 
+    // Modulation:
+    /*
+    fprintf('---------------------------------------\n');
+    M  = input('Enter Modulation order,       M  = ') ;
+    M1 = input('Enter Modulation Type Number, M1 = ') ;
+    fprintf('---------------------------------------\n');
+
+    type2 = 'qam' ;
+    [ MappingTable , trell ] = LTE_CONTROL( M , M1 , type2 , gf , gr ) ;
+
+
+    title( ' QAM Cancelation ' )
+    plot( MappingTable , ':' )
+
+    [ MappedSymbols , LengthMatcher ] = LTE_MODULATION( turboData , M , MappingTable ) ;
+
+
+    title( ' Mapped Symbols ' )
+    plot( MappingTable , '--m' )
+
+*/
     // Decoding:
     int decoded_data[length];
     lte_turbo_decoder(turbo_data, length, gf, gr, f1, f2, decoded_data);
+
+    /*
+
+    error = sum( abs( xor( decodedBits , enycrptedData ) ) ) ;
+    BER2  = error / length( enycrptedData )  ;
+
+    fprintf('-----------------------------  \n');
+    fprintf('BER before Decoding = %2.4f \n', BER);
+    fprintf('BER after  Decoding = %2.4f \n', BER2);
+    fprintf('-----------------------------  \n');
+    */
 
     // open new sound file and write to it:
     sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);
@@ -125,3 +157,68 @@ void main(void) {
 
 
 }
+/*
+void compression(void) {
+    %% 4)- Compression :
+
+    [ encodedDataCompressed , finder , N1 ] = LTE_COMPRESS( encodedData' ,Nlevels ) ;
+
+    fprintf('----------------------------------------  \n');
+    fprintf('Nbits before Compression = %d bit \n', length(encodedData) * 8 );
+    fprintf('Nbits after  Compression = %d  bit \n', length(encodedDataCompressed));
+    fprintf('Compression Ratio        = %2.2f percent \n', length(encodedDataCompressed)*100/(length(encodedData) * 8) );
+    fprintf('----------------------------------------  \n');
+
+    % sound(encodedDataCompressed,10*Fs)
+    pause
+
+}
+
+void security(void) {
+    %% 5)- Securety :
+
+    MAC = '8A89F6F0' ;
+
+    enycrptedData = encodedDataCompressed ;
+    % [ enycrptedData , MAC ] = LTE_SECURITY( encodedDataCompressed , Count , Bearer , Fresh , Direction , CK , IK ) ;
+
+    fprintf('------------------------------------  \n');
+    fprintf('Nbits before Encryption = %d bit \n', length(encodedDataCompressed));
+    fprintf('Nbits after  Encryption = %d bit \n', length(enycrptedData));
+    fprintf('MAC = %s \n', MAC );
+    fprintf('------------------------------------  \n');
+
+    pause
+}
+
+void security(void) {
+
+    %% 11)- Securety :
+
+    decryptedData = decodedBits ;
+    % [ decryptedData , MAC ] = LTE_SECURITY( decodedBits , Count , Bearer , Fresh , Direction , CK , IK ) ;
+
+    fprintf('------------------------------------  \n');
+    fprintf('Nbits before Decryption = %d bit \n', length(encodedDataCompressed));
+    fprintf('Nbits after  Decryption = %d bit \n', length(enycrptedData));
+    fprintf('------------------------------------  \n');
+
+    pause
+}
+
+void expansion(void) {
+
+    %% 12)- Expantion :
+
+    expandedData  = LTE_EXPANDER( decryptedData , finder , N1 ) ;
+
+    fprintf('----------------------------------------  \n');
+    fprintf('Nbits before Expantion = %d bit \n', length(decryptedData) );
+    fprintf('Nbits after  Expantion = %d bit \n', length(expandedData)*8);
+    fprintf('Compression Ratio      = %2.2f percent \n', length(decryptedData)*100/(length(expandedData)*8) );
+    fprintf('----------------------------------------  \n');
+
+    pause
+}
+
+*/

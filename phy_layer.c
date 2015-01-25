@@ -103,86 +103,33 @@ void lte_turbo_decoder(int *data, int length, int gf, int gr,
     poly_deinterlever(depoly_data, length, f1, f2, decoded_data);
 }
 
+void generate_mapping_table(int M, int M1, double *table) {
+
+    int angle = 0 ;
+    int ampde = 1 ;
+    int vector[M1];
+
+    int i;
+    for(i = 0; i < M1; i++) {
+        vector[i] = i+1;
+    }
+
+    int j;
+    for(j = 0; j < M; j++) {
+        table[j] = vector[ampde] * exp(angle * 3.14 / (M/M1));
+        angle += 2;
+        if ((int) fmod(j, (M/M1)) == 0 ) {
+            ampde++;
+            angle = 0;
+        }
+    }
+}
+
+
+
+
+
 /*
-
-void compression(void) {
-	%% 4)- Compression :
-
-	[ encodedDataCompressed , finder , N1 ] = LTE_COMPRESS( encodedData' ,Nlevels ) ;
-
-	fprintf('----------------------------------------  \n');
-	fprintf('Nbits before Compression = %d bit \n', length(encodedData) * 8 );
-	fprintf('Nbits after  Compression = %d  bit \n', length(encodedDataCompressed));
-	fprintf('Compression Ratio        = %2.2f percent \n', length(encodedDataCompressed)*100/(length(encodedData) * 8) );
-	fprintf('----------------------------------------  \n');
-
-	% sound(encodedDataCompressed,10*Fs)
-	pause
-
-}
-
-void security(void) {
-	%% 5)- Securety :
-
-	MAC = '8A89F6F0' ;
-
-	enycrptedData = encodedDataCompressed ;
-	% [ enycrptedData , MAC ] = LTE_SECURITY( encodedDataCompressed , Count , Bearer , Fresh , Direction , CK , IK ) ;
-
-	fprintf('------------------------------------  \n');
-	fprintf('Nbits before Encryption = %d bit \n', length(encodedDataCompressed));
-	fprintf('Nbits after  Encryption = %d bit \n', length(enycrptedData));
-	fprintf('MAC = %s \n', MAC );
-	fprintf('------------------------------------  \n');
-
-	pause
-}
-
-void modulation(void) {
-	%% 7)- Modulation :
-
-	fprintf('---------------------------------------\n');
-	M  = input('Enter Modulation order,       M  = ') ;
-	M1 = input('Enter Modulation Type Number, M1 = ') ;
-	fprintf('---------------------------------------\n');
-
-	type2 = 'qam' ;
-	[ MappingTable , trell ] = LTE_CONTROL( M , M1 , type2 , gf , gr ) ;
-
-	f5 = figure('position',[300 80 800 600]) ;
-
-	hold on
-	grid on
-	xlabel('Real Part');
-	ylabel('Imaginary Part')
-	title( ' QAM Cancelation ' )
-	plot( MappingTable , ':' )
-	plot( MappingTable , 'sr' )
-	print( f5 , '-dbmp', '-noui', 'C:\Users\win7\Desktop\Results\QAM Cancelation' );
-	hold off
-
-	pause
-	close all
-
-	[ MappedSymbols , LengthMatcher ] = LTE_MODULATION( turboData , M , MappingTable ) ;
-
-	f6 = figure('position',[300 80 800 600]) ;
-
-	hold on
-	grid on
-	xlabel('Real Part');
-	ylabel('Imaginary Part')
-	title( ' Mapped Symbols ' )
-	plot( MappingTable , '--m' )
-	plot( MappedSymbols , 'sk' )
-	print( f6 , '-dbmp', '-noui', 'C:\Users\win7\Desktop\Results\Mapped Symbols' );
-	hold off
-
-	pause
-	close all
-
-}
-
 void channel(void) {
 	%% 8)- Channel :
 
@@ -254,56 +201,6 @@ void demodulation(void) {
 
 	pause
 
-}
-
-void decoding(void) {
-	%% 10)- Decoding :
-
-	fprintf('----------------------------------------------\n');
-	iterationNum  = input('Enter decoder iteration Num, iterationNum  = ') ;
-	fprintf('----------------------------------------------\n');
-
-	decodedBits  = LTE_DECODER( ReceivedBits , trell  , gr , Lc , iterationNum , type1 );
-
-	error = sum( abs( xor( decodedBits , enycrptedData ) ) ) ;
-	BER2  = error / length( enycrptedData )  ;
-
-	fprintf('-----------------------------  \n');
-	fprintf('BER before Decoding = %2.4f \n', BER);
-	fprintf('BER after  Decoding = %2.4f \n', BER2);
-	fprintf('-----------------------------  \n');
-
-	pause
-}
-
-void security(void) {
-
-	%% 11)- Securety :
-
-	decryptedData = decodedBits ;
-	% [ decryptedData , MAC ] = LTE_SECURITY( decodedBits , Count , Bearer , Fresh , Direction , CK , IK ) ;
-
-	fprintf('------------------------------------  \n');
-	fprintf('Nbits before Decryption = %d bit \n', length(encodedDataCompressed));
-	fprintf('Nbits after  Decryption = %d bit \n', length(enycrptedData));
-	fprintf('------------------------------------  \n');
-
-	pause
-}
-
-void expansion(void) {
-
-	%% 12)- Expantion :
-
-	expandedData  = LTE_EXPANDER( decryptedData , finder , N1 ) ;
-
-	fprintf('----------------------------------------  \n');
-	fprintf('Nbits before Expantion = %d bit \n', length(decryptedData) );
-	fprintf('Nbits after  Expantion = %d bit \n', length(expandedData)*8);
-	fprintf('Compression Ratio      = %2.2f percent \n', length(decryptedData)*100/(length(expandedData)*8) );
-	fprintf('----------------------------------------  \n');
-
-	pause
 }
 
 void normalization(void) {
