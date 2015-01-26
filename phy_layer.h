@@ -45,5 +45,6 @@
                           int f1, int f2, int decoded_data[length]);
     void generate_mapping_table(int M, int M1, double *table);
     void lte_modulation(int *data, int length, int M, double *table, double *mapped_symbols);
+    void lte_demodulation(int *data, int length, int M, double *table, double *receives_signal);
 
 #endif /* PHY_LAYER_H_ */

@@ -134,16 +134,47 @@ void main(void) {
     title( ' Mapped Symbols ' )
     plot( MappingTable , '--m' )
 
-*/
+    */
+
+    /*
+      channel
+    fprintf('-------------------------\n');
+    SNR  = input('Enter AWGN SNR, SNR  = ') ;
+    fprintf('-------------------------\n');
+
+    [ ReceivedSignal , Lc ] = LTE_CHANNEL( MappedSymbols  , SNR  ) ;
+
+    channelResponse = ones(1,1000) ;
+    output  = LTE_CHANNEL( channelResponse  , SNR  ) ;
+
+    f7 = figure('position',[300 80 800 600]) ;
+
+    hold on
+    grid on
+    xlabel('Time Slot');
+    ylabel('Amplitude')
+    title( ' Channel Response ' )
+      */
+
+    /*
+    %% 9)- Demodulation :
+    ReceivedBits = LTE_DEMODULATION( ReceivedSignal ,  MappingTable , M , LengthMatcher ) ;
+    title( ' Received Signal ' )
+    plot( MappingTable , '--m' )
+    error = sum( abs( xor( ReceivedBits , turboData ) ) ) ;
+    BER   = error / length( turboData )  ;
+    fprintf('-----------------------------  \n');
+    fprintf('BER before Decoding = %2.4f \n', BER);
+    fprintf('-----------------------------  \n');}
+    */
+
     // Decoding:
     int decoded_data[length];
     lte_turbo_decoder(turbo_data, length, gf, gr, f1, f2, decoded_data);
 
     /*
-
     error = sum( abs( xor( decodedBits , enycrptedData ) ) ) ;
     BER2  = error / length( enycrptedData )  ;
-
     fprintf('-----------------------------  \n');
     fprintf('BER before Decoding = %2.4f \n', BER);
     fprintf('BER after  Decoding = %2.4f \n', BER2);

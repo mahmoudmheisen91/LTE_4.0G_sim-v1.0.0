@@ -136,82 +136,24 @@ void lte_modulation(int *data, int length, int M, double *table, double *mapped_
     */
 }
 
+void lte_demodulation(int *data, int length, int M, double *table, double *receives_signal) {
+    double k = log10(M) / log10(2);
 
+    /*
+        for i = 1 : length( ReceivedSignal )
+
+            [a, MinIndex] = min( ReceivedSignal( i ) - MappingTable );  %#ok<*ASGLU>
+            symbolIndex   = MinIndex - 1;
+            bits          = de2bi( symbolIndex , k ,'left-msb' ) ;
+            for h = 1 : k
+                TempReg( ( i - 1 ) * k + h ) = bits( h );
+            end
+        end
+        ReceivedBits = TempReg( 1 : length( TempReg ) - LengthMatcher ) ;
+    */
+}
 
 /*
-void channel(void) {
-	%% 8)- Channel :
-
-	fprintf('-------------------------\n');
-	SNR  = input('Enter AWGN SNR, SNR  = ') ;
-	fprintf('-------------------------\n');
-
-	[ ReceivedSignal , Lc ] = LTE_CHANNEL( MappedSymbols  , SNR  ) ;
-
-	channelResponse = ones(1,1000) ;
-	output  = LTE_CHANNEL( channelResponse  , SNR  ) ;
-
-	f7 = figure('position',[300 80 800 600]) ;
-
-	hold on
-	grid on
-	xlabel('Time Slot');
-	ylabel('Amplitude')
-	title( ' Channel Response ' )
-	plot( output)
-	print( f7 , '-dbmp', '-noui', 'C:\Users\win7\Desktop\Results\Channel Response' );
-	hold off
-
-	pause
-	close all
-
-	f8 = figure('position',[300 80 800 600]) ;
-
-	hold on
-	grid on
-	xlabel('Real Part');
-	ylabel('Imaginary Part')
-	title( ' Received Signal ' )
-	plot( MappingTable , '--m' )
-	plot( ReceivedSignal , 'sk' )
-	print( f8 , '-dbmp', '-noui', 'C:\Users\win7\Desktop\Results\Received Signal' );
-	hold off
-
-	pause
-	close all
-}
-
-void demodulation(void) {
-	%% 9)- Demodulation :
-
-	ReceivedBits = LTE_DEMODULATION( ReceivedSignal ,  MappingTable , M , LengthMatcher ) ;
-
-	f9 = figure('position',[300 80 800 600]) ;
-
-	hold on
-	grid on
-	xlabel('Real Part')
-	ylabel('Imaginary Part')
-	title( ' Received Signal ' )
-	plot( MappingTable , '--m' )
-	plot( MappingTable , '*k' )
-	print( f9 , '-dbmp', '-noui', 'C:\Users\win7\Desktop\Results\Received Bits cancelation' );
-	hold off
-
-	pause
-	close all
-
-	error = sum( abs( xor( ReceivedBits , turboData ) ) ) ;
-	BER   = error / length( turboData )  ;
-
-	fprintf('-----------------------------  \n');
-	fprintf('BER before Decoding = %2.4f \n', BER);
-	fprintf('-----------------------------  \n');
-
-	pause
-
-}
-
 void normalization(void) {
 	%% 13)- Normalization :
 
@@ -220,34 +162,7 @@ void normalization(void) {
 	encodedData3  = S2P(ReceivedData,r,c) ;
 	encodedData4 = bi2de(encodedData3 , 'left-msb' ) ;
 
-
-	f10 = figure('position',[150 115 1100 500]) ;
-	hold on
-	grid on
-	xlabel('Sample');
-	ylabel('Amplitude')
 	title( ' Audio Signal ' )
 	plot( encodedData4 )
-	%soundsc(ReceivedData,Fs)
-	print( f10 , '-dbmp', '-noui', 'C:\Users\win7\Desktop\Results\finalSignal' );
-	hold off
-
-	pause
-	close all
-
-	fprintf('----------------------------------------------------------------------------------------------------\n');
-	fprintf('                                             THANK YOU \n');
-	fprintf('----------------------------------------------------------------------------------------------------\n');
-
-
 }
-
-
-
 */
-
-
-
-
-
-
