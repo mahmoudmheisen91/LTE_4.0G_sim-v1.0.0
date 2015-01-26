@@ -186,7 +186,10 @@ void main(void) {
     sf_write_int(sf2, decoded_data, length) ;
     sf_close(sf2);
 
-
+    // print info to screen:
+    printf("---------------------------------\n");
+    printf("            THANK YOU");
+    printf("---------------------------------\n");
 }
 /*
 void compression(void) {
