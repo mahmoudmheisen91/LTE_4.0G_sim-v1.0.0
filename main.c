@@ -73,12 +73,17 @@ void main(void) {
     //plot_xy(time, data, length, "lines", "Time", "Amplitute", "Test Signal");
 
 
-    // ADC using 4 bits:
+    // ADC using 8 bits:
     double quantized_data[length];
     int encoded_data[length];
     double error_signal[length];
-    int nbits = 4; // TODO as user/command input
+    int nbits = 8; // TODO as user/command input
     double snr_db = lte_adc(data, length, nbits, quantized_data, encoded_data, error_signal);
+
+    int i;
+    for(i = 0; i < length; i++) {
+        //printf("%d ", encoded_data[i]);
+    }
 
     //free(error_signal);
     //free(quantized_data);
@@ -181,14 +186,18 @@ void main(void) {
     fprintf('-----------------------------  \n');
     */
 
+    // Normalization:
+    static double final_data[184705];
+    normalization(encoded_data, length, final_data);
+
     // open new sound file and write to it:
     sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);
-    sf_write_int(sf2, decoded_data, length) ;
+    sf_write_double(sf2, quantized_data, length) ;
     sf_close(sf2);
 
     // print info to screen:
     printf("---------------------------------\n");
-    printf("            THANK YOU");
+    printf("            THANK YOU\n");
     printf("---------------------------------\n");
 }
 /*
