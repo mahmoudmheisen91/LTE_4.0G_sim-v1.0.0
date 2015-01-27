@@ -153,6 +153,16 @@ void lte_demodulation(int *data, int length, int M, double *table, double *recei
     */
 }
 
+void normalization(int *data, int length, double output[length]) {
+    double sub = max((double *) data, length) / 2.0;
+    double maxy = max((double *) data, length) - sub;
+
+    int i;
+    for(i = 0; i < length; i++) {
+        output[i] = (data[i] - sub) / maxy;
+    }
+}
+
 /*
 void normalization(void) {
 	%% 13)- Normalization :
