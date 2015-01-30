@@ -189,6 +189,13 @@ void main(void) {
     // Normalization:
     static double final_data[184705];
     normalization(encoded_data, length, final_data);
+    /*
+        ReceivedData = expandedData / max(expandedData) ;
+        encodedData3  = S2P(ReceivedData,r,c) ;
+        encodedData4 = bi2de(encodedData3 , 'left-msb' ) ;
+        title( ' Audio Signal ' )
+        plot( encodedData4 )
+    */
 
     // open new sound file and write to it:
     sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);

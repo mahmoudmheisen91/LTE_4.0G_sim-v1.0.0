@@ -162,17 +162,3 @@ void normalization(int *data, int length, double output[length]) {
         output[i] = (data[i] - sub) / maxy;
     }
 }
-
-/*
-void normalization(void) {
-	%% 13)- Normalization :
-
-	ReceivedData = expandedData / max(expandedData) ;
-
-	encodedData3  = S2P(ReceivedData,r,c) ;
-	encodedData4 = bi2de(encodedData3 , 'left-msb' ) ;
-
-	title( ' Audio Signal ' )
-	plot( encodedData4 )
-}
-*/
