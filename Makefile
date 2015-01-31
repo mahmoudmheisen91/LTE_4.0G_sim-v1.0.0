@@ -5,7 +5,7 @@ CC = gcc
 CFLAGS = -c -Wall
 
 # define any directories containing header files other than /usr/include:
-INCLUDES = -I$(shell pwd)/incs
+INCLUDES = -I$(shell pwd)/inc
 
 # define library paths in addition to /usr/lib:
 LFLAGS =
@@ -13,14 +13,14 @@ LFLAGS =
 # define any libraries to link into executable:
 LIBS = -lm -lsndfile
 
+# define paths for .c files:
+vpath %.c $(shell pwd)/src
+
 # define the C source files:
 SOURCES = main.c gnuplot_i.c phy_layer.c resources.c
 
-# define the C header files:
-HEADERS = gnuplot_i.h phy_layer.h resources.h LTE_err.h
-
 # define the C object files:
-OBJECTS = $(SOURCES:.c=.o)
+OBJECTS = $(patsubst %.c,obj/%.o,$(SOURCES))
 
 # define the executable file:
 EXECUTABLE = lte_simulator
@@ -29,13 +29,22 @@ LTE: $(SOURCES) $(EXECUTABLE)
 
 # build executable:
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) -o $@ $(OBJECTS) $(LIBS) $(INCLUDES) $(LFLAGS)
+	$(CC) -o $@ $^ $(INCLUDES) $(LIBS) $(LFLAGS)
+
+# if any $(OBJECTS) must be built then obj must be built first:
+$(OBJECTS): | obj
 
 # replacement rule for building .o's from .c's:
-.c.o:
+obj/%.o : %.c
 	$(CC) -o $@ $< $(CFLAGS) $(INCLUDES)
+
+# run command:
+run:
+	./$(EXECUTABLE)
 
 # clean command: remove object files:
 clean:
-	$(RM) *.o *~ $(EXECUTABLE)
+	$(RM) $(shell pwd)/obj/*.o 
+	$(RM) $(shell pwd)/src/*~ 
+	$(RM) *~ $(EXECUTABLE)
 
