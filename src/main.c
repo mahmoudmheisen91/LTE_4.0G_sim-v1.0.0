@@ -125,20 +125,14 @@ void main(void) {
     M  = input('Enter Modulation order,       M  = ') ;
     M1 = input('Enter Modulation Type Number, M1 = ') ;
     fprintf('---------------------------------------\n');
-
     type2 = 'qam' ;
     [ MappingTable , trell ] = LTE_CONTROL( M , M1 , type2 , gf , gr ) ;
 
-
     title( ' QAM Cancelation ' )
     plot( MappingTable , ':' )
-
     [ MappedSymbols , LengthMatcher ] = LTE_MODULATION( turboData , M , MappingTable ) ;
-
-
     title( ' Mapped Symbols ' )
     plot( MappingTable , '--m' )
-
     */
 
     /*
