@@ -31,7 +31,7 @@ LTE: $(SOURCES) $(EXECUTABLE)
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) -o $@ $^ $(INCLUDES) $(LIBS) $(LFLAGS)
 
-# if any $(OBJECTS) must be built then obj must be built first:
+# if any OBJECTS must be built then obj must be built first:
 $(OBJECTS): | obj
 
 # replacement rule for building .o's from .c's:
