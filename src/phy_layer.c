@@ -71,7 +71,7 @@ void poly_deinterlever(int *data, int length, int f1, int f2, int depoly_data[le
 void lte_turbo_encoder(int *data, int length, int gf, int gr,
                       int f1, int f2, int turbo_data[2 * length]) {
     // 6)- Turbo Coding :
-    int L = nbits_number(gr);
+    //int L = nbits_number(gr);
 
     // Encoding:
     int *poly_data;
@@ -126,7 +126,7 @@ void generate_mapping_table(int M, int M1, double *table) {
 }
 
 void lte_modulation(int *data, int length, int M, double *table, double *mapped_symbols) {
-    double k = log10(M) / log10(2);
+    //double k = log10(M) / log10(2);
 
     /*
     for i = 1 : k : numberOfBits
@@ -137,7 +137,7 @@ void lte_modulation(int *data, int length, int M, double *table, double *mapped_
 }
 
 void lte_demodulation(int *data, int length, int M, double *table, double *receives_signal) {
-    double k = log10(M) / log10(2);
+    //double k = log10(M) / log10(2);
 
     /*
         for i = 1 : length( ReceivedSignal )

@@ -29,6 +29,8 @@
                                 Includes
  ---------------------------------------------------------------------------*/
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 /** Maximal number of simultaneous temporary files */
 #define GP_MAX_TMP_FILES    64

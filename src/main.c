@@ -24,7 +24,7 @@
 #include "resources.h"
 #include "phy_layer.h"
 
-void main(void) {
+int main(void) {
 
     // TODO:
     // S2P
@@ -200,6 +200,8 @@ void main(void) {
     printf("---------------------------------\n");
     printf("            THANK YOU\n");
     printf("---------------------------------\n");
+
+    return SUCCESS;
 }
 /*
 void compression(void) {
