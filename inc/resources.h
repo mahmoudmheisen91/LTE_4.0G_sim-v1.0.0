@@ -40,12 +40,11 @@
     int plot_y(double *y, int length, char *style, char *xlabel, char *ylabel, char *title);
     void plot_xy(double *x, double *y, int length, char *style,
                  char *xlabel, char *ylabel, char *title);
-    double max(double  *data, int length);
     double min(double  *data, int length);
+    double max(double *data, int length);
     double mean(double *data, int length);
     double var(double *data, int length);
     int nbits_number(int num);
-
 
 #endif /* RESOURCES_H_ */
 

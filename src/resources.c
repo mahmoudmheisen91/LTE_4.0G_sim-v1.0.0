@@ -81,21 +81,21 @@ void plot_xy(double *x, double *y, int length, char *style, char *xlabel, char *
     gnuplot_close(handler);
 }
 
-double max(double *data, int length) {
-    int i;
-    double result = -999999.99;
-    for(i = 0; i < length; i++) {
-        if(data[i] > result)
-            result = data[i];
-    }
-    return result;
-}
-
 double min(double *data, int length) {
     int i;
     double result = 999999.99;
     for(i = 0; i < length; i++) {
         if(data[i] < result)
+            result = data[i];
+    }
+    return result;
+}
+
+double max(double *data, int length) {
+    int i;
+    double result = -999999.99;
+    for(i = 0; i < length; i++) {
+        if(data[i] > result)
             result = data[i];
     }
     return result;
