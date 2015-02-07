@@ -14,7 +14,7 @@ LFLAGS =
 LIBS = -lm -lsndfile
 
 # define paths for .c files:
-vpath %.c %.cpp $(shell pwd)/src
+vpath %.c $(shell pwd)/src
 
 # define the C source files:
 SOURCES = main.c gnuplot_i.c phy_layer.c resources.c
