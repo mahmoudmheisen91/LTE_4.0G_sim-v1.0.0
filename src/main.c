@@ -43,7 +43,7 @@ int main(void) {
 
     // TODO: image
     // TODO: imshow
-    printf("Enter 1 for image and 2 for voice.\n");
+    //printf("Enter 1 for image and 2 for voice.\n");
 
     // open sound file and read it:
     // TODO: know number of bits
@@ -62,7 +62,7 @@ int main(void) {
     //wait_for_ctrl_c();
 
     // plot original signal:
-    //plot_y(data, length, "lines", "Sample", "Amplitude", "Audio Signal");
+    plot_y(data, length, "lines", "Sample", "Amplitude", "Audio Signal");
 
     // plot vs orignal time:
     //int i;
