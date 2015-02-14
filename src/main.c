@@ -48,7 +48,7 @@ int main(void) {
     // open sound file and read it:
     // TODO: know number of bits
     // TODO: sound matlab
-    sf1 = sf_open("test_signal.wav", SFM_READ, &info);
+    sf1 = sf_open("data/test_signal.wav", SFM_READ, &info);
     double data[info.frames];
     int length = sf_read_double(sf1, data, info.frames);
     int Fs = info.samplerate;
@@ -192,7 +192,7 @@ int main(void) {
     */
 
     // open new sound file and write to it:
-    sf2 = sf_open("test_signal_2.wav", SFM_WRITE, &info);
+    sf2 = sf_open("output/test_signal_2.wav", SFM_WRITE, &info);
     sf_write_double(sf2, quantized_data, length) ;
     sf_close(sf2);
 

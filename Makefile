@@ -5,7 +5,7 @@ CC = gcc
 CFLAGS = -c -Wall
 
 # define any directories containing header files other than /usr/include:
-INCLUDES = -I$(shell pwd)/inc
+INCLUDES = -I$(shell pwd)/inc -I$(shell pwd)/data
 
 # define library paths in addition to /usr/lib:
 LFLAGS =
