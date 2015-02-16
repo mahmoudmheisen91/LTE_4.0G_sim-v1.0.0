@@ -18,7 +18,7 @@ vpath %.c $(shell pwd)/src
 
 # define the C source files:
 SOURCES = main.c gnuplot_i.c phy_layer.c resources.c \
-	  statics.c plots.c lte_adc.c
+	  statics.c plots.c lte_adc.c interleaver.c
 
 # define the C object files:
 OBJECTS = $(patsubst %.c,obj/%.o,$(SOURCES))

@@ -14,21 +14,7 @@
 // Including Libraries:
 #include "phy_layer.h"
 
-void poly_interlever(int *data, int length, int f1, int f2, int poly_data[]) {
-    int i;
-    for(i = 0; i < length; i++) {
-        //printf("%.4f\n", fmod((f1 * i + f2 * pow(i, 2)), length));
-        poly_data[i] = data[(int) fmod((f1 * i + f2 * pow(i, 2)), length)];
-    }
-}
 
-void poly_deinterlever(int *data, int length, int f1, int f2, int depoly_data[length]) {
-    int i;
-    for(i = 0; i < length; i++) {
-        //printf("%.4f\n", fmod((f1 * i + f2 * pow(i, 2)), length));
-        depoly_data[(int) fmod((f1 * i + f2 * pow(i, 2)), length)] = data[i];
-    }
-}
 
 void lte_turbo_encoder(int *data, int length, int gf, int gr,
                       int f1, int f2, int turbo_data[2 * length]) {
@@ -39,7 +25,7 @@ void lte_turbo_encoder(int *data, int length, int gf, int gr,
     int *poly_data;
     poly_data = (int*)malloc(sizeof(int) * length);
 
-    poly_interlever(data, length, f1, f2, poly_data);
+    poly_interleaver(data, length, f1, f2, poly_data);
 
     int i;
     for(i = 0; i < 2 * length; i++) {
@@ -62,7 +48,7 @@ void lte_turbo_decoder(int *data, int length, int gf, int gr,
             depoly_data[j++] = data[i];
     }
 
-    poly_deinterlever(depoly_data, length, f1, f2, decoded_data);
+    poly_deinterleaver(depoly_data, length, f1, f2, decoded_data);
 }
 
 void generate_mapping_table(int M, int M1, double *table) {
