@@ -29,28 +29,6 @@ void lte_turbo_decoder(int *data, int length, int gf, int gr,
     poly_deinterleaver(depoly_data, length, f1, f2, decoded_data);
 }
 
-void generate_mapping_table(int M, int M1, double *table) {
-
-    int angle = 0 ;
-    int ampde = 1 ;
-    int vector[M1];
-
-    int i;
-    for(i = 0; i < M1; i++) {
-        vector[i] = i+1;
-    }
-
-    int j;
-    for(j = 0; j < M; j++) {
-        table[j] = vector[ampde] * exp(angle * 3.14 / (M/M1));
-        angle += 2;
-        if ((int) fmod(j, (M/M1)) == 0 ) {
-            ampde++;
-            angle = 0;
-        }
-    }
-}
-
 void lte_modulation(int *data, int length, int M, double *table, double *mapped_symbols) {
     //double k = log10(M) / log10(2);
 
