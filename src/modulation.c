@@ -1,6 +1,6 @@
 /*-------------------------------------------------------------------------*/
 /**
-  @file     lte_turbo_encoder.c
+  @file     modulation.c
   @author   Mahmoud Mheisen
   @date     Feb 2015
   @version  $Revision: 1.0 $

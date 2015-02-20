@@ -33,3 +33,18 @@ void lte_turbo_encoder(int *data, int length, int gf, int gr,
             turbo_data[i] = poly_data[i/2];
     }
 }
+
+void lte_turbo_decoder(int *data, int length, int gf, int gr,
+                      int f1, int f2, int decoded_data[length]) {
+
+    // Decoding:
+    int depoly_data[length];
+
+    int i, j;
+    for(i = 0; i < 2 * length; i++) {
+        if (i % 2 != 0)
+            depoly_data[j++] = data[i];
+    }
+
+    poly_deinterleaver(depoly_data, length, f1, f2, decoded_data);
+}
