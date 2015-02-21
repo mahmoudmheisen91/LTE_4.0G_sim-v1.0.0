@@ -2,7 +2,7 @@
 			LTE 4.0G Simulator
 ################################################################
 
-src file :
+inc file :
   | >> statics.c
   | >> resources.c
   | >> plots.c
