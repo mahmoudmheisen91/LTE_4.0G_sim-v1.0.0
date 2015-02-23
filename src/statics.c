@@ -4,33 +4,82 @@
   @author   Mahmoud Mheisen
   @date     Feb 2015
   @version  $Revision: 1.0 $
-  @brief    Resource file for LTE simulator
+  @brief    Contain simple statics function which defined in resource.h
 
   LTE Simulator Project: Undergraduate project for simulation the physical
   layer of fourth generation wirless communication standerd (LTE).
 */
 /*--------------------------------------------------------------------------*/
 
-// Including Libraries:
+/*---------------------------------------------------------------------------
+                                Includes
+ ---------------------------------------------------------------------------*/
 #include "resources.h"
 
+
+/*---------------------------------------------------------------------------
+                            Function codes
+ ---------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*/
+/**
+  @brief    find minimum value in double pointer array
+  @param    data double array input
+  @param    length length of array
+  @return   minimum value in array
+
+  Examples:
+
+  @code
+  double value = min(data, 23);
+  @endcode
+
+ */
+/*--------------------------------------------------------------------------*/
+
 double min(double *data, int length) {
+    // first value in the array:
+    double result = data[0];
+
+    // search for minimum:
     int i;
-    double result = 999999.99;
     for(i = 0; i < length; i++) {
         if(data[i] < result)
             result = data[i];
     }
+
+    // return
     return result;
 }
 
+/*-------------------------------------------------------------------------*/
+/**
+  @brief    find maximum value in double pointer array
+  @param    data double array input
+  @param    length length of array
+  @return   maximum value in array
+
+  Examples:
+
+  @code
+  double value = max(data, 23);
+  @endcode
+
+ */
+/*--------------------------------------------------------------------------*/
+
 double max(double *data, int length) {
+    // first value in the array:
+    double result = data[0];
+
+    // search for maximum:
     int i;
-    double result = -999999.99;
     for(i = 0; i < length; i++) {
         if(data[i] > result)
             result = data[i];
     }
+
+    // return:
     return result;
 }
 
